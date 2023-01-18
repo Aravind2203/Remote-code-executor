@@ -1,0 +1,26 @@
+version: "2.3" 
+services:
+  rabbitmq:
+    hostname: rabbitmq
+    image: "rabbitmq:3-management"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=pass
+    ports:
+      - 5672:5672
+      - 15672:15672
+  redis-server:
+    image: "redis"
+  api:
+    build: ./api
+    restart: always
+    depends_on:
+      - rabbitmq
+    ports:
+      - 8000:8000
+  executor:
+    build: ./executor
+    restart: always
+    depends_on:
+      - rabbitmq
+      - api
