@@ -13,7 +13,8 @@ def execute(request:Code):
     data={
         "code":request.code,
         "lang":request.lang,
-        "task_id":id_
+        "task_id":id_,
+        "stdin":request.stdin
     }
     json_data=json.dumps(data)
     rabitcon=RabitMQConnection(json_data)

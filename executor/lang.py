@@ -3,10 +3,10 @@ import os
 import json
 
 
-def python_executor(code):
+def python_executor(code,in_):
     with open("ns.py","w") as f:
         f.write(code)
-    h=subprocess.run(["python","ns.py"],capture_output=True,text=True)
+    h=subprocess.run(["python","ns.py"],capture_output=True,text=True,input=in_)
     os.remove("ns.py")
     if h.stderr:
             data_={
@@ -23,7 +23,7 @@ def python_executor(code):
         json_data=json.dumps(data_)
         return json_data
 
-def java_executor(code):
+def java_executor(code,in_=""):
     with open("Main.java","w") as f:
         f.write(code)
     compile_=subprocess.run(["javac","Main.java"],capture_output=True,text=True)
@@ -35,7 +35,7 @@ def java_executor(code):
         json_data=json.dumps(data_)
         return json_data
     else:
-        execute_=subprocess.run(["java","Main"],capture_output=True,text=True)
+        execute_=subprocess.run(["java","Main"],capture_output=True,text=True,input=in_)
         if execute_.stderr:
             data_={
             "error":execute_.stderr,

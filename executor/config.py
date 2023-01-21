@@ -25,9 +25,9 @@ class RabitMQConnection:
         body=body.decode()
         data=json.loads(body)
         if data["lang"]=="python":
-            response=python_executor(data["code"])
+            response=python_executor(data["code"],data["stdin"])
         if data["lang"]=="java":
-            response=java_executor(data["code"])
+            response=java_executor(data["code"],data["stdin"])
         if data["lang"]=="node":
             response=js_executor(data["code"])
         self.r.set_key(data["task_id"],response)
